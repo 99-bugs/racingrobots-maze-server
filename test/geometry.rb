@@ -1,51 +1,53 @@
 require 'minitest/autorun'
-require './lib/Geometry'
+require './lib/GeometryHelper'
+require 'Geometry/Line'
+require 'Geometry/Point'
 
 class TestGeometry < Minitest::Test
 
+    Line = Geometry::Line
+    Point = Geometry::Point
+    
   def setup
 
   end
 
   def test_minimum_distance_from_point
-      linestart = {x: 0, y: 0}
-      lineend = {x: 5, y: 0}
-      point = {x: 2.5, y: 1}
-      distance = Geometry::minimumDistanceLineToPoint(linestart, lineend, point)
+      line = Line[[0,0], [5,0]]
+      point = Point[2.5, 1]
+      distance = GeometryHelper::minimumDistanceLineToPoint(line, point)
       assert_equal 1, distance
   end
 
   def test_minimum_distance_from_point_behind_end_point
-      linestart = {x: 0, y: 0}
-      lineend = {x: 5, y: 0}
-      point = {x: 6, y: 0}
-      distance = Geometry::minimumDistanceLineToPoint(linestart, lineend, point)
+      line = Line[[0,0], [5,0]]
+      point = Point[6, 0]
+      distance = GeometryHelper::minimumDistanceLineToPoint(line, point)
       assert_equal 1, distance
   end
 
   def test_minimum_distance_from_point_before_begin_point
-      linestart = {x: 0, y: 0}
-      lineend = {x: 5, y: 0}
-      point = {x: -1, y: 0}
-      distance = Geometry::minimumDistanceLineToPoint(linestart, lineend, point)
+      line = Line[[0,0], [5,0]]
+      point = Point[-1, 0]
+      distance = GeometryHelper::minimumDistanceLineToPoint(line, point)
       assert_equal 1, distance
   end
 
   def test_lines_crossing
-      line1 = {start: {x: 0.0, y: 0.0}, end: {x: 10.0, y: 0.0}}
-      line2 = {start: {x: 5.0, y: -5.0}, end: {x: 5.0, y: 5.0}}
+      line1 = Line[[0,0],[10,0]]
+      line2 = Line[[5,-5],[5,5]]
 
-      intersection = Geometry::getLineIntersection line1, line2
+      intersection = GeometryHelper::getLineIntersection line1, line2
 
-      assert_equal 5, intersection[:x]
-      assert_equal 0, intersection[:y]
+      assert_equal 5, intersection.x
+      assert_equal 0, intersection.y
   end
 
   def test_lines_not_crossing
-      line1 = {start: {x: 0.0, y: 0.0}, end: {x: 10.0, y: 0.0}}
-      line2 = {start: {x: 5.0, y: 1.0}, end: {x: 5.0, y: 11.0}}
+      line1 = Line[[0,0],[10,0]]
+      line2 = Line[[5,1],[5,11]]
 
-      intersection = Geometry::getLineIntersection line1, line2
+      intersection = GeometryHelper::getLineIntersection line1, line2
 
       refute intersection
   end

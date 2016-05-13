@@ -1,20 +1,23 @@
-require "./lib/Geometry"
+require "./lib/GeometryHelper"
+require "Geometry/Line"
+require "Geometry/Point"
 
 class Rocket
+    Line = Geometry::Line
+    Point = Geometry::Point
 
     attr_reader :power
 
-    def initialize owner, range = 5, power = 50
+    def initialize owner, range = 5.0, power = 50.0
         @owner = owner
-        owner_position = @owner.getPosition
         @world = owner.world
-        @x = owner_position[:x].to_f
-        @y = owner_position[:y].to_f
-        @a = owner_position[:a].to_f
+
         @power = power.to_f
         @range = range.to_f
-        endPosition = endPosition()
-        @destination_x, @destination_y = endPosition[:x], endPosition[:y]
+
+        @position = owner.position
+        @heading = owner.heading
+        @traject = Line[@position, endPosition]
 
         checkCollisions if @world
     end
@@ -32,48 +35,35 @@ class Rocket
         end
 
         id, robot = robotsInRange.min_by do |id, robot|
-            position = robot.getPosition
-            Geometry::distance({x: position[:x], y: position[:y]}, {x: @x, y: @y})
+            GeometryHelper::distance(robot.position, @position)
         end
         robot
     end
 
     def limitShotUntilWall
         wallsInRange = @world.maze.walls.select do |wall|
-            Geometry::getLineIntersection({
-                    start: {x:@x, y: @y},
-                    end:{x: @destination_x, y: @destination_y}
-                }, wall.to_hash)
+            GeometryHelper::getLineIntersection(@traject, wall)
         end
 
         wall = wallsInRange.min_by do |wall|
-            intersection = Geometry::getLineIntersection({
-                    start: {x:@x, y: @y},
-                    end:{x: @destination_x, y: @destination_y}
-                }, wall.to_hash)
-            Geometry::distance({x: intersection[:x], y: intersection[:y]}, {x: @x, y: @y})
+            intersection = GeometryHelper::getLineIntersection(@traject, wall)
+            GeometryHelper::distance(intersection, @position)
         end
 
-        intersection = Geometry::getLineIntersection({
-                start: {x:@x, y: @y},
-                end:{x: @destination_x, y: @destination_y}
-            }, wall.to_hash)
-
-        @destination_x , @destination_y = intersection[:x], intersection[:y]
+        unless wall.nil?
+            intersection = GeometryHelper::getLineIntersection(@traject, wall)
+            @traject = Line[@position, intersection]
+        end
     end
 
     def endPosition
-        x = @x + (@range * Math::cos(@a))
-        y = @y - (@range * Math::sin(@a))
-        {x: x, y: y}
+        x = @position.x + (@range * Math::cos(@heading))
+        y = @position.y - (@range * Math::sin(@heading))
+        Point[x,y]
     end
 
     def hit? robot
-        linestart = {x: @x, y:@y}
-        lineend = {x: @destination_x, y: @destination_y}
-        point = robot.getPosition
-
-        distance = Geometry::minimumDistanceLineToPoint(linestart, lineend, point)
+        distance = GeometryHelper::minimumDistanceLineToPoint(@traject, robot.position)
         distance - robot.size < 0
     end
 

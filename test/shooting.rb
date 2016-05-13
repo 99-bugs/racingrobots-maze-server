@@ -1,7 +1,10 @@
 require 'minitest/autorun'
 require './lib/Server'
+require 'Geometry/Point'
 
 class TestShooting < Minitest::Test
+
+    Point = Geometry::Point
 
   def setup
     @server = Server.new
@@ -15,14 +18,14 @@ class TestShooting < Minitest::Test
         robot7: "Robot 7",
         robot8: "Robot 8"
         })
-    @server.robots[:robot1].setLocation({x: 8.5, y: 2.5, a: Math::PI})
-    @server.robots[:robot2].setLocation({x: 5.5, y: 2.5, a: 0})
-    @server.robots[:robot3].setLocation({x: 4.5, y: 2.5, a: 0})
-    @server.robots[:robot4].setLocation({x: 5.5, y: 2.0, a: 0})
-    @server.robots[:robot5].setLocation({x: 8.5, y: 0.5, a: 0})
-    @server.robots[:robot6].setLocation({x: 5.5, y: 0.5, a: (3*Math::PI)/2})
-    @server.robots[:robot7].setLocation({x: 4.5, y: 3.5, a: Math::PI/4})
-    @server.robots[:robot8].setLocation({x: 9.5, y: 0.5, a: Math::PI})
+    @server.robots[:robot1].updatePosition(Point[8.5,2.5], Math::PI)
+    @server.robots[:robot2].updatePosition(Point[5.5,2.5], 0)
+    @server.robots[:robot3].updatePosition(Point[4.5,2.5], 0)
+    @server.robots[:robot4].updatePosition(Point[5.5,2.0], 0)
+    @server.robots[:robot5].updatePosition(Point[8.5,0.5], 0)
+    @server.robots[:robot6].updatePosition(Point[5.5,0.5], (3*Math::PI)/2)
+    @server.robots[:robot7].updatePosition(Point[4.5,3.5], Math::PI/4)
+    @server.robots[:robot8].updatePosition(Point[9.5,0.5], Math::PI)
   end
 
   def test_clear_shot
