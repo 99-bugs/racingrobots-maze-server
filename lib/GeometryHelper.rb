@@ -1,5 +1,4 @@
-require 'Geometry/Line'
-require 'Geometry/Point'
+require 'Geometry'
 
 class GeometryHelper
 

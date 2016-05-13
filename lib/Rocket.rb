@@ -1,12 +1,11 @@
 require "./lib/GeometryHelper"
-require "Geometry/Line"
-require "Geometry/Point"
+require "Geometry"
 
 class Rocket
     Line = Geometry::Line
     Point = Geometry::Point
 
-    attr_reader :power
+    attr_reader :power, :damage
 
     def initialize owner, range = 5.0, power = 50.0
         @owner = owner
@@ -14,6 +13,7 @@ class Rocket
 
         @power = power.to_f
         @range = range.to_f
+        @damage = 0
 
         @position = owner.position
         @heading = owner.heading
@@ -26,7 +26,7 @@ class Rocket
         limitShotUntilWall
         robot = getRobotCollision
 
-        robot.hit! self unless robot.nil?
+        @damage = robot.hit! self unless robot.nil?
     end
 
     def getRobotCollision
@@ -66,7 +66,4 @@ class Rocket
         distance = GeometryHelper::minimumDistanceLineToPoint(@traject, robot.position)
         distance - robot.size < 0
     end
-
-
-
 end

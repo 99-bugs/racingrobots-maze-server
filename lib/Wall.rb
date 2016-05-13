@@ -1,4 +1,4 @@
-require 'Geometry/Line'
+require 'Geometry'
 
 class Wall < Geometry::Line
 

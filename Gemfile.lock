@@ -4,6 +4,7 @@ GEM
     geometry (6.5)
     minitest (5.8.4)
     rake (11.1.2)
+    table_print (1.5.6)
 
 PLATFORMS
   x86-mingw32
@@ -13,3 +14,4 @@ DEPENDENCIES
   geometry
   minitest
   rake
+  table_print
