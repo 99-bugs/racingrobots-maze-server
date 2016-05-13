@@ -10,4 +10,7 @@ class Wall
         @end = Point.new x2, y2
     end
 
+    def to_hash
+        {start: {x: @start.x, y: @start.y}, end: {x: @end.x, y: @end.y}}
+    end
 end

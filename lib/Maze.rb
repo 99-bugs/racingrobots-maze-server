@@ -2,6 +2,8 @@ require "./lib/Wall"
 
 class Maze
 
+    attr_reader :walls
+
     def initialize
         @walls = Array.new
         # outer walls

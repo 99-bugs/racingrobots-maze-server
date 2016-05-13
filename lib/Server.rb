@@ -5,7 +5,7 @@ require './lib/Robot'
 
 class Server
 
-    attr_accessor :robots
+    attr_accessor :robots, :maze
 
     def initialize
         @maze = Maze.new

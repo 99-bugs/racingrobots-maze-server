@@ -12,7 +12,8 @@ class TestShooting < Minitest::Test
         robot4: "Robot 4",
         robot5: "Robot 5",
         robot6: "Robot 6",
-        robot7: "Robot 7"
+        robot7: "Robot 7",
+        robot8: "Robot 8"
         })
     @server.robots[:robot1].setLocation({x: 8.5, y: 2.5, a: Math::PI})
     @server.robots[:robot2].setLocation({x: 5.5, y: 2.5, a: 0})
@@ -21,6 +22,7 @@ class TestShooting < Minitest::Test
     @server.robots[:robot5].setLocation({x: 8.5, y: 0.5, a: 0})
     @server.robots[:robot6].setLocation({x: 5.5, y: 0.5, a: (3*Math::PI)/2})
     @server.robots[:robot7].setLocation({x: 4.5, y: 3.5, a: Math::PI/4})
+    @server.robots[:robot8].setLocation({x: 9.5, y: 0.5, a: Math::PI})
   end
 
   def test_clear_shot
@@ -57,5 +59,13 @@ class TestShooting < Minitest::Test
       robot6.shoot
       assert_equal health2, robot2.health
       refute_equal health4, robot4.health
+  end
+
+  def test_hit_shot_with_wall_in_between
+      robot5 = @server.robots[:robot5]
+      robot8 = @server.robots[:robot8]
+      health = robot8.health
+      robot5.shoot
+      assert_equal health, robot8.health
   end
 end
