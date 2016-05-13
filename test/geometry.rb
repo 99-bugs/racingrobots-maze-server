@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require './lib/Geometry'
 
-class TestRockets < Minitest::Test
+class TestGeometry < Minitest::Test
 
   def setup
 
@@ -31,5 +31,23 @@ class TestRockets < Minitest::Test
       assert_equal 1, distance
   end
 
+  def test_lines_crossing
+      line1 = {start: {x: 0.0, y: 0.0}, end: {x: 10.0, y: 0.0}}
+      line2 = {start: {x: 5.0, y: -5.0}, end: {x: 5.0, y: 5.0}}
+
+      intersection = Geometry::getLineIntersection line1, line2
+
+      assert_equal 5, intersection[:x]
+      assert_equal 0, intersection[:y]
+  end
+
+  def test_lines_not_crossing
+      line1 = {start: {x: 0.0, y: 0.0}, end: {x: 10.0, y: 0.0}}
+      line2 = {start: {x: 5.0, y: 1.0}, end: {x: 5.0, y: 11.0}}
+
+      intersection = Geometry::getLineIntersection line1, line2
+
+      refute intersection
+  end
 
 end

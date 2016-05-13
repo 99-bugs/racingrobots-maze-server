@@ -28,4 +28,38 @@ class Geometry
         self::distance({x: x3, y: y3}, {x: x, y: y})
     end
 
+    # http://paulbourke.net/geometry/pointlineplane/
+    def self.getLineIntersection line1, line2
+        x1, y1 = line1[:start][:x], line1[:start][:y]
+        x2, y2 = line1[:end][:x], line1[:end][:y]
+        x3, y3 = line2[:start][:x], line2[:start][:y]
+        x4, y4 = line2[:end][:x], line2[:end][:y]
+
+        numeratorA  = ((x4 - x3) * (y1 - y3)) - ((y4 - y3) * (x1 - x3))
+        numeratorB  = ((x2 - x1) * (y1 - y3)) - ((y2 - y1) * (x1 - x3))
+        denominator = ((y4 - y3) * (x2 - x1)) - ((x4 - x3) * (y2 - y1))
+        uA = numeratorA / denominator
+        uB = numeratorB / denominator
+
+        if denominator.zero?
+            if uA.zero? and uB.zero?
+                # lines are coincident
+                return false
+            else
+                # lines are parallel
+                return false
+            end
+        end
+
+        if uA.between?(0,1) and uB.between?(0,1)
+            x = x1 + uA * (x2 - x1)
+            y = y1 + uA * (y2 - y1)
+        else
+            #line segments do not cross between start and end points
+            return false
+        end
+
+        {x: x, y: y}
+    end
+
 end
