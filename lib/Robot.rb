@@ -2,7 +2,7 @@ require './lib/Rocket'
 
 class Robot
 
-    attr_reader :health, :size, :world
+    attr_reader :health, :size, :world, :name
     @power = 0
 
     def initialize name = "Unnamed Robot", world = nil
