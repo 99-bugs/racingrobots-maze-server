@@ -2,8 +2,7 @@ require 'Geometry'
 
 class GeometryHelper
 
-    Line = Geometry::Line
-    Point = Geometry::Point
+    include Geometry
 
     def self.distance first, last
         Math::sqrt((first.x.to_f - last.x.to_f) ** 2 + (first.y.to_f - last.y.to_f) ** 2)

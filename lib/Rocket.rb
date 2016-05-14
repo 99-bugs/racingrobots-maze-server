@@ -2,8 +2,7 @@ require "./lib/GeometryHelper"
 require "Geometry"
 
 class Rocket
-    Line = Geometry::Line
-    Point = Geometry::Point
+    include Geometry
 
     attr_reader :power, :damage
 

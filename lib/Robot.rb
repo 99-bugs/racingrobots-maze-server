@@ -3,7 +3,7 @@ require 'Geometry'
 
 class Robot
 
-    Point = Geometry::Point
+    include Geometry
 
     attr_reader :health, :size, :world, :name, :position, :heading, :shotsFired, :damage
     @power = 0
