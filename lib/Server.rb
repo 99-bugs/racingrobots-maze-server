@@ -5,10 +5,11 @@ require './lib/Robot'
 
 class Server
 
-    attr_accessor :robots, :maze
+    attr_accessor :robots, :maze, :robotController
 
     def initialize
         @maze = Maze.new
+        @robotController = RobotController.new self
     end
 
     def setRobots robots
@@ -17,5 +18,7 @@ class Server
             @robots[id] = Robot.new name, self
         end
     end
+
+
 
 end
