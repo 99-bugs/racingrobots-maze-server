@@ -78,23 +78,8 @@ describe RobotController do
                     command: "forward"
                     })
                 result = @robotController.parseCommand command
-                puts result.inspect;
                 assert_equal  "ok", JSON.parse(result)["status"]
-
             end
         end
-
     end
-
-    # describe "when shoot button is pressed" do
-    #     it "robot must shoot" do
-    #         robot1 = @server.robots[:robot1]
-    #         robot2 = @server.robots[:robot2]
-    #         health = robot2.health
-    #         @server.robotController.execute robot1, :x
-    #         assert(robot2.health < health, "health not decreased after hit")
-    #     end
-    # end
-
-
 end

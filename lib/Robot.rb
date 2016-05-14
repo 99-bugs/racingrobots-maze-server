@@ -1,9 +1,11 @@
 require './lib/Rocket'
+require './lib/RemoteControl'
 require 'Geometry'
 
 class Robot
 
     include Geometry
+    include RemoteControl
 
     attr_reader :health, :size, :world, :name, :position, :heading, :shotsFired, :damage
     @power = 0
