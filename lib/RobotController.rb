@@ -1,18 +1,22 @@
 require 'json'
 require './lib/CommandParser'
+require './lib/StateParser'
+require 'Geometry'
 
 
 class RobotController
+
+    include Geometry
 
     def initialize server
         @server = server
         @commandParser = CommandParser.new @server
     end
 
-    def parseCommand command
+    def parseCommand commandString
         response = JSON.generate({status: "ok"})
         begin
-            robot, command = @commandParser.parse command
+            robot, command = @commandParser.parse commandString
             execute robot, command
         rescue JSON::ParserError
             response = JSON.generate({status: "error",message: "command not a valid JSON string"})
@@ -42,6 +46,15 @@ class RobotController
             else
                 raise CommandError.new "unknown command"
             end
+        end
+    end
+
+    def parseState stateString
+        states = StateParser::parse stateString
+
+        states.each do |robotid, state|
+            robot @server.robots[robotid]
+            robot.updatePosition Point[state.x, state.y], state.angle unless robot.nil?
         end
     end
 end

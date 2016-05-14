@@ -83,3 +83,39 @@ describe RobotController do
         end
     end
 end
+
+describe StateParser do
+    it "should parse json data" do
+        data = '{ "robot1": {"x": 100, "y": 200, "angle": 1.5}, "robot2": {"x": 50, "y": 0, "angle": 0}}'
+        state = StateParser::parse data
+
+        assert state.key? "robot1"
+        assert state.key? "robot2"
+
+        assert_equal 100, state["robot1"]["x"]
+        assert_equal 200, state["robot1"]["y"]
+        assert_equal 1.5, state["robot1"]["angle"]
+
+        assert_equal 50, state["robot2"]["x"]
+        assert_equal 0, state["robot2"]["y"]
+        assert_equal 0, state["robot2"]["angle"]
+    end
+end
+
+describe CommandParser do
+    before do
+        @server = Server.new
+        @server.setRobots({ robot1: "Robot 1" })
+        @server.robots[:robot1].updatePosition(Geometry::Point[8.5,2.5], Math::PI)
+    end
+
+    it "should parse json data" do
+        data = '{ "robotid": "robot1", "command": "shoot"}'
+        robot = @server.robots[:robot1]
+        assert_equal 0, robot.shotsFired
+
+        @server.robotController.parseCommand data
+
+        assert_equal 1, robot.shotsFired
+    end
+end
