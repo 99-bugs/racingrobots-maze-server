@@ -1,39 +1,25 @@
 require 'json'
+require './lib/CommandParser'
 
 
 class RobotController
-    class CommandError < StandardError
-    end
 
     def initialize server
         @server = server
+        @commandParser = CommandParser.new @server
     end
 
     def parseCommand command
         response = JSON.generate({status: "ok"})
         begin
-            # try to parse the JSON string
-            command = JSON.parse(command)
-
-            # command should contain robotid and command options
-            raise CommandError.new "no robotid present" unless command.key? "robotid"
-            raise CommandError.new "no command present" unless command.key? "command"
-
-            robotid = command["robotid"].downcase
-            robot =  @server.robots[robotid.to_sym]
-            command = command["command"].downcase
-
-            # robot should exist on the server
-            raise CommandError.new "unknown robot" if robot.nil?
-
+            robot, command = @commandParser.parse command
             execute robot, command
         rescue JSON::ParserError
             response = JSON.generate({status: "error",message: "command not a valid JSON string"})
         rescue CommandError => e
             response = JSON.generate({status: "error", message: e.message})
         end
-
-        return response
+        response
     end
 
     def execute robot, command
