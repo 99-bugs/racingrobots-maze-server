@@ -12,9 +12,7 @@ class Robot
         @world = world
         @name = name
         @size = 0.5
-        @health = 100
-        @shotsFired = 0
-        @damage = 0
+        reset
         updatePosition Point[0,0], 0
     end
 
@@ -30,13 +28,29 @@ class Robot
     end
 
     def hit! rocket
+        health = @health
         @health -= rocket.power
-        rocket.power
+        @health = [@health, 0].max
+        damage = health - @health
     end
 
     def updatePosition position, heading = nil
         @position = position
         @heading = heading unless heading.nil?
+    end
+
+    def reset
+        @health = 100
+        @shotsFired = 0
+        @damage = 0
+    end
+
+    def dead?
+        @health <= 0
+    end
+
+    def alive?
+        not dead?
     end
 
 end
