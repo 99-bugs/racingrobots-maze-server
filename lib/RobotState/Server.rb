@@ -15,7 +15,7 @@ module RobotState
               loop do
                   command = @commands.pop
                   response = robotController.parse command[:command]
-                  command[:response_queque] << response
+                  command[:response_queue] << response
               end
           end
           Thread.new do
@@ -44,7 +44,7 @@ module RobotState
                   @response = Queue.new
                   puts @response
                   while command = client.gets.strip
-                      @commands.push({command: command, response_queque: @response})
+                      @commands.push({command: command, response_queue: @response})
                       client.puts @response.pop
                   end
 
