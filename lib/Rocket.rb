@@ -1,5 +1,5 @@
 require "./lib/GeometryHelper"
-require "Geometry"
+require "geometry"
 
 class Rocket
     include Geometry

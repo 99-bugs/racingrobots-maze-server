@@ -1,4 +1,4 @@
-require 'Geometry'
+require 'geometry'
 
 class GeometryHelper
 
