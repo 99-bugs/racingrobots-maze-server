@@ -1,6 +1,7 @@
 
 require './lib/Maze'
 require './lib/Robot'
+require './lib/RobotState/Server'
 require './lib/Remotes/Serial'
 require './lib/Remotes/Xbee'
 
@@ -9,10 +10,11 @@ class Server
 
     attr_accessor :robots, :maze, :robotController
 
-    def initialize
+    def initialize host = "localhost", port = RobotState::Server::PORT
         @maze = Maze.new
         @robotController = RobotController.new self
         @remote = nil #xbee or serial
+        @tcpServer = RobotState::Server.new @robotController, host, port
     end
 
     def setRobots robots
@@ -22,6 +24,11 @@ class Server
         end
     end
 
+    def close
+        @tcpServer.close
+    end
 
-
+    def port
+        @tcpServer.port
+    end
 end
