@@ -1,6 +1,6 @@
 require './lib/Rocket'
 require './lib/RemoteControl'
-require 'Geometry'
+require 'geometry'
 
 class Robot
 

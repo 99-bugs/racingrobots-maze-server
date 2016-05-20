@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require './lib/RobotController'
 require './lib/Server'
-require 'Geometry/Point'
+require 'geometry/point'
 
 require "minitest/reporters"
 Minitest::Reporters.use!    [Minitest::Reporters::SpecReporter.new]
