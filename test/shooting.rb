@@ -30,6 +30,10 @@ describe RobotController do
         @server.robots[:robot8].updatePosition(Geometry::Point[1931,101], Math::PI)
     end
 
+    after do
+        @server.close
+    end
+
     describe "when robot shoots" do
         it "should hit robot in front of him" do
             robot1 = @server.robots[:robot1]

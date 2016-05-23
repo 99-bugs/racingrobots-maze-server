@@ -29,6 +29,10 @@ describe RobotController do
         @robotController = @server.robotController
     end
 
+    after do
+        @server.close
+    end
+
     describe "commandparser" do
         describe "returning an error" do
             it  "if command is not valid JSON" do
