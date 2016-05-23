@@ -14,7 +14,7 @@ module RobotState
           @listener = Thread.new do
               loop do
                   command = @commands.pop
-                  response = robotController.parse command[:command]
+                  response = robotController.parseCommand command[:command]
                   command[:response_queue] << response
               end
           end
