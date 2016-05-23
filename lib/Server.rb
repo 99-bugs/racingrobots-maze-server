@@ -10,7 +10,7 @@ class Server
 
     attr_accessor :robots, :maze, :robotController
 
-    def initialize host = "localhost", port = RobotState::Server::PORT
+    def initialize host = "localhost", port = 0
         @maze = Maze.new
         @robotController = RobotController.new self
         @remote = nil #xbee or serial

@@ -1,31 +1,50 @@
 require 'json'
+require 'json-schema'
 
 class CommandError < StandardError
 end
 
 class CommandParser
 
-    def initialize server
-        @server = server
+    SCHEMA_FILE = "./lib/json_schemas/command.json"
+
+    def initialize
+        @handlers = Hash.new
+
+        # Read schema
+        @schema = File.read(SCHEMA_FILE)
     end
 
-    def parse command
-        # try to parse the JSON string
-        command = JSON.parse(command)
-
-        # command should contain robotid and command options
-        raise CommandError.new "no robotid present" unless command.key? "robotid"
-        raise CommandError.new "no command present" unless command.key? "command"
-
-        robotid = command["robotid"].downcase
-        robot =  @server.robots[robotid.to_sym]
-        command = command["command"].downcase
-
-        # robot should exist on the server
-        raise CommandError.new "unknown robot" if robot.nil?
-
-        return robot, command
+    def registerHandler commandkey, handler
+        @handlers[commandkey.downcase] = handler
     end
 
+    def parse json_string
+        warnings = ""
 
+        JSON.parse(json_string).each do |robot|
+            begin
+                # Make sure robot has id
+                JSON::Validator.validate!(@schema, robot['id'], :fragment => "#/definitions/id")
+
+                @handlers.each do |property, handler|
+                    if (robot.has_key?(property))
+                        begin
+                            JSON::Validator.validate!(@schema, robot[property], :fragment => "#/definitions/" + property)
+                            handler.call(robot['id'], robot[property])
+                        rescue JSON::Schema::ValidationError => e
+                            warnings += "#{robot['id']}: #{e.message}"
+                        rescue CommandError => ce
+                            warnings += ce.message
+                        end
+                    end
+                end
+
+            rescue JSON::Schema::ValidationError => e
+                warnings += "#{robot.inspect}: has no id"
+            end
+        end
+
+        raise CommandError.new warnings unless warnings.empty?
+    end
 end
