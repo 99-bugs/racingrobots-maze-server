@@ -23,6 +23,8 @@ class RobotController
             return JSON.generate({status: "error", message: "command not a valid JSON string"})
         rescue CommandError => ce
             return JSON.generate({status: "warning", warnings: ce.message})
+        rescue StandardError => e
+            JSON.generate({status: "error", message: "something went wrong"})
         end
     end
 
