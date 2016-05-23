@@ -10,8 +10,6 @@ class CommandParser
 
     def initialize
         @handlers = Hash.new
-
-        # Read schema
         @schema = File.read(SCHEMA_FILE)
     end
 
