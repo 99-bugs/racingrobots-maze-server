@@ -10,51 +10,59 @@ class RobotController
 
     def initialize server
         @server = server
-        @commandParser = CommandParser.new @server
+        @commandParser = CommandParser.new
+        @commandParser.registerHandler('move', method(:moveHandler))
+        @commandParser.registerHandler('shoot', method(:shootHandler))
+        @commandParser.registerHandler('state', method(:stateUpdateHandler))
     end
 
     def parseCommand commandString
-        response = JSON.generate({status: "ok"})
         begin
-            robot, command = @commandParser.parse commandString
-            execute robot, command
+            @commandParser.parse commandString
+            return JSON.generate({status: "ok"})
         rescue JSON::ParserError
-            response = JSON.generate({status: "error",message: "command not a valid JSON string"})
-        rescue CommandError => e
-            response = JSON.generate({status: "error", message: e.message})
+            return JSON.generate({status: "error", message: "command not a valid JSON string"})
+        rescue CommandError => ce
+            return JSON.generate({status: "warning", warnings: ce.message})
         end
-        response
     end
 
-    def execute robot, command
+    def moveHandler robotId, direction
+        robot = getRobot robotId
         if robot.alive?
-            case command
-            when "forward" then
-                robot.forward
-            when "backward" then
-                robot.backward
-            when "left" then
-                robot.turnleft
-            when "right" then
-                robot.turnright
-            when "shoot", "rocket", "bazooka", "a" then
-                robot.shoot
-            when "b" then
-                robot.shoot
-            when "x" then
-                robot.shoot
-            else
-                raise CommandError.new "unknown command"
+            case direction
+                when "forward" then
+                    robot.forward
+                when "backward" then
+                    robot.backward
+                when "left" then
+                    robot.turnleft
+                when "right" then
+                    robot.turnright
             end
         end
     end
 
-    def parseState stateString
-        states = StateParser::parse stateString
-
-        states.each do |robotid, state|
-            robot @server.robots[robotid]
-            robot.updatePosition Point[state.x, state.y], state.angle unless robot.nil?
+    def shootHandler robotId, weapon
+        robot = getRobot robotId
+        if robot.alive?
+            case weapon
+                when "rocket", "bazooka" then
+                    robot.shoot
+                when "a", "b", "x" then
+                    robot.shoot
+            end
         end
+    end
+
+    def stateUpdateHandler robotId, state
+        robot = getRobot robotId
+        robot.updatePosition Point[state['x'], state['y']], state['angle']
+    end
+
+    def getRobot robotId
+        robot =  @server.robots[robotId.to_sym]
+        raise CommandError.new "unknown robot" if robot.nil?
+        return robot
     end
 end
