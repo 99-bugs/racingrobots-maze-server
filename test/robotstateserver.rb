@@ -50,9 +50,9 @@ describe Server do
     describe "when sending data" do
         it "must not not accept any other data than json" do
             robot1 = @server.robots[:robot1]
-            @client.puts '{ "robot1": {"x": 100, "y": 200, "angle": 1.5}, "robot2": {"x": 50, "y": 0, "angle": 0}}'
-            result = @client.gets
-            result.must_equal JSON.generate({status: "error", message: "command not a valid JSON string"})
+            @client.puts 'This is not a valid json string'
+            result = @client.gets.strip
+            assert_equal JSON.generate({status: "error", message: "command not a valid JSON string"}), result
         end
     end
 
