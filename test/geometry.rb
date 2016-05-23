@@ -1,13 +1,13 @@
 require 'minitest/autorun'
 require './lib/GeometryHelper'
-require 'Geometry/Line'
-require 'Geometry/Point'
+require 'geometry/line'
+require 'geometry/point'
 
 class TestGeometry < Minitest::Test
 
     Line = Geometry::Line
     Point = Geometry::Point
-    
+
   def setup
 
   end

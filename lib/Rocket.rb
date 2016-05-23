@@ -1,12 +1,12 @@
 require "./lib/GeometryHelper"
-require "Geometry"
+require "geometry"
 
 class Rocket
     include Geometry
 
-    attr_reader :power, :damage
+    attr_reader :power, :damage, :traject
 
-    def initialize owner, range = 5.0, power = 50.0
+    def initialize owner, range = 1000.0, power = 50.0
         @owner = owner
         @world = owner.world
 

@@ -2,12 +2,14 @@ require "./lib/Wall"
 
 class Maze
 
+    SCALE = 2440 / 12
     attr_reader :walls
 
     def initialize
         @walls = Array.new
-        # outer walls
-        @walls.push(
+        @walls_prepare = Array.new
+
+        @walls_prepare.push(
             Wall[[0,0],[12,0]],
             Wall[[12,0],[12,6]],
             Wall[[12,6],[0,6]],
@@ -56,5 +58,13 @@ class Maze
             Wall[[6,3],[6,4]],
             Wall[[6,4],[5,4]]
         )
+
+        @walls_prepare.each do |wall|
+          x1 = wall.first.x * SCALE
+          y1 = wall.first.y * SCALE
+          x2 = wall.last.x * SCALE
+          y2 = wall.last.y * SCALE
+          @walls << Wall[[x1,y1],[x2,y2]]
+        end
     end
 end

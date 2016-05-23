@@ -1,7 +1,7 @@
 require 'json'
 require './lib/CommandParser'
 require './lib/StateParser'
-require 'Geometry'
+require 'geometry'
 
 
 class RobotController

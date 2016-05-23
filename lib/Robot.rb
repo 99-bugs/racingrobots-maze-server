@@ -1,6 +1,6 @@
 require './lib/Rocket'
 require './lib/RemoteControl'
-require 'Geometry'
+require 'geometry'
 
 class Robot
 
@@ -13,7 +13,7 @@ class Robot
     def initialize name = "Unnamed Robot", world = nil
         @world = world
         @name = name
-        @size = 0.5
+        @size = 120 / 2 #radius = diameter / 2
         reset
         updatePosition Point[0,0], 0
     end

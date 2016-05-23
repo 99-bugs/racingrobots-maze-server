@@ -17,14 +17,14 @@ describe RobotController do
             robot7: "Robot 7",
             robot8: "Robot 8"
             })
-        @server.robots[:robot1].updatePosition(Geometry::Point[8.5,2.5], Math::PI)
-        @server.robots[:robot2].updatePosition(Geometry::Point[5.5,2.5], 0)
-        @server.robots[:robot3].updatePosition(Geometry::Point[4.5,2.5], 0)
-        @server.robots[:robot4].updatePosition(Geometry::Point[5.5,2.0], 0)
-        @server.robots[:robot5].updatePosition(Geometry::Point[8.5,0.5], 0)
-        @server.robots[:robot6].updatePosition(Geometry::Point[5.5,0.5], (3*Math::PI)/2)
-        @server.robots[:robot7].updatePosition(Geometry::Point[4.5,3.5], Math::PI/4)
-        @server.robots[:robot8].updatePosition(Geometry::Point[9.5,0.5], Math::PI)
+        @server.robots[:robot1].updatePosition(Geometry::Point[1728,508], Math::PI)
+        @server.robots[:robot2].updatePosition(Geometry::Point[1118,408], 0)
+        @server.robots[:robot3].updatePosition(Geometry::Point[ 915,508], 0)
+        @server.robots[:robot4].updatePosition(Geometry::Point[1118,406], 0)
+        @server.robots[:robot5].updatePosition(Geometry::Point[1728,101], 0)
+        @server.robots[:robot6].updatePosition(Geometry::Point[1118,101], (3*Math::PI)/2)
+        @server.robots[:robot7].updatePosition(Geometry::Point[ 915,711], Math::PI/4)
+        @server.robots[:robot8].updatePosition(Geometry::Point[1931,101], Math::PI)
 
         @robotController = @server.robotController
     end
