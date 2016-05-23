@@ -10,8 +10,6 @@ class CommandParser
 
     def initialize
         @handlers = Hash.new
-
-        # Read schema
         @schema = File.read(SCHEMA_FILE)
     end
 
@@ -20,31 +18,24 @@ class CommandParser
     end
 
     def parse json_string
+        # Parse and validate json info
+        parsed_json = JSON.parse(json_string)
+        warnings = JSON::Validator.fully_validate(@schema, parsed_json)
+        raise CommandError.new warnings unless warnings.empty?
+
+        # Call handlers
         warnings = ""
-
-        JSON.parse(json_string).each do |robot|
-            begin
-                # Make sure robot has id
-                JSON::Validator.validate!(@schema, robot['id'], :fragment => "#/definitions/id")
-
-                @handlers.each do |property, handler|
-                    if (robot.has_key?(property))
-                        begin
-                            JSON::Validator.validate!(@schema, robot[property], :fragment => "#/definitions/" + property)
-                            handler.call(robot['id'], robot[property])
-                        rescue JSON::Schema::ValidationError => e
-                            warnings += "#{robot['id']}: #{e.message}"
-                        rescue CommandError => ce
-                            warnings += ce.message
-                        end
+        parsed_json.each do |robot|
+            @handlers.each do |property, handler|
+                if (robot.has_key?(property))
+                    begin
+                        handler.call(robot['id'], robot[property])
+                    rescue CommandError => ce
+                        warnings += ce.message
                     end
                 end
-
-            rescue JSON::Schema::ValidationError => e
-                warnings += "#{robot.inspect}: has no id"
             end
         end
-
         raise CommandError.new warnings unless warnings.empty?
     end
 end

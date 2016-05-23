@@ -27,7 +27,7 @@ module RobotState
           @server.close
           @listener.kill
           @clients.each do |client|
-              thread.kill
+              client.close
           end
       end
 
