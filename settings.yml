@@ -1,4 +1,15 @@
-names:
-    robot1: "sille"
-    robot2: "nico"
-    robot3: "stanley"
+serial:
+    device: "/dev/ttyUSB0"
+    baud: 115200
+
+
+robots:
+    robot1:
+        name: "sille"
+        address: "00-13-A2-00-40-B4-10-5D"
+    robot2:
+        name: "nico"
+        address: "00-13-A2-00-40-B4-10-5D"
+    robot3:
+        name: "stanley"
+        address: "00-13-A2-00-40-B4-10-5D"
