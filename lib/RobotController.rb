@@ -1,6 +1,5 @@
 require 'json'
 require './lib/CommandParser'
-require './lib/StateParser'
 require 'geometry'
 
 
