@@ -42,14 +42,24 @@ describe RobotController do
                 assert_string_contains "command not a valid JSON string", result
             end
 
+            it "if json is object and not array" do
+                command = JSON.generate(
+                    { "id": "robot1",  "move": "left"}
+                    )
+                result = @robotController.parseCommand command
+
+                assert_string_contains "warning", result
+                assert_string_contains "type Hash did not match the following type: array", result
+            end
+
             it "if no id is present" do
                 command = JSON.generate([
-                    { "move": "forward"}
+                    { "move": "forward" }
                     ])
                 result = @robotController.parseCommand command
 
                 assert_string_contains "warning", result
-                assert_string_contains "has no id", result
+                assert_string_contains "did not contain a required property of 'id'", result
             end
 
             it "if robotid is not valid" do
@@ -69,7 +79,7 @@ describe RobotController do
                 result = @robotController.parseCommand command
 
                 assert_string_contains "warning", result
-                assert_string_contains "\\\"\\\" did not match one of the following values: forward, left, right, reverse", result
+                assert_string_contains "did not match one of the following values: forward, left, right, reverse", result
             end
 
             it "if move has invalid arguments" do
@@ -79,7 +89,7 @@ describe RobotController do
                 result = @robotController.parseCommand command
 
                 assert_string_contains "warning", result
-                assert_string_contains "\\\"invalid\\\" did not match one of the following values: forward, left, right, reverse", result
+                assert_string_contains "did not match one of the following values: forward, left, right, reverse", result
             end
 
             it "if shoot has no arguments" do
@@ -89,7 +99,7 @@ describe RobotController do
                 result = @robotController.parseCommand command
 
                 assert_string_contains "warning", result
-                assert_string_contains "\\\"\\\" did not match one of the following values: rocket, shoot, bazooka, a, b, x", result
+                assert_string_contains "did not match one of the following values: rocket, shoot, bazooka, a, b, x", result
             end
 
             it "if move has invalid arguments" do
@@ -99,7 +109,7 @@ describe RobotController do
                 result = @robotController.parseCommand command
 
                 assert_string_contains "warning", result
-                assert_string_contains "\\\"fire\\\" did not match one of the following values: rocket, shoot, bazooka, a, b, x", result
+                assert_string_contains "did not match one of the following values: rocket, shoot, bazooka, a, b, x", result
             end
 
             it "if state has missing x position" do
