@@ -5,11 +5,32 @@ serial:
 
 robots:
     robot1:
-        name: "sille"
+        name: "robot 1"
         address: "00-13-A2-00-40-B4-10-5D"
     robot2:
-        name: "nico"
-        address: "00-13-A2-00-40-B4-10-5D"
+        name: "robot 2"
+        address: "00-13-A2-00-40-B3-3D-89"
     robot3:
-        name: "stanley"
-        address: "00-13-A2-00-40-B4-10-5D"
+        name: "robot 3"
+        address: "00-13-A2-00-40-B3-E2-E7"
+    robot4:
+        name: "robot 4"
+        address: "00-13-A2-00-40-B0-A8-65"
+    robot5:
+        name: "robot 5"
+        address: "00-13-A2-00-40-B3-E2-D8"
+    robot6:
+        name: "robot 6"
+        address: "00-13-A2-00-40-BD-2C-0F"
+    robot7:
+        name: "robot 7"
+        address: "00-13-A2-00-40-BB-44-35"
+    robot8:
+        name: "robot 8"
+        address: "00-13-A2-00-40-B0-AA-47"
+    robot9:
+        name: "robot 9"
+        address: "00-13-A2-00-40-B0-AA-11"
+    robot10:
+        name: "robot 10"
+        address: "00-13-A2-00-40-BD-2B-C0"
