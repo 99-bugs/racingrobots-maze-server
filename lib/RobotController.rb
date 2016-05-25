@@ -34,12 +34,12 @@ class RobotController
             case direction
                 when "forward" then
                     robot.forward
-                when "backward" then
+                when "reverse" then
                     robot.backward
                 when "left" then
-                    robot.turnleft
+                    robot.turn_left
                 when "right" then
-                    robot.turnright
+                    robot.turn_right
             end
         end
     end
