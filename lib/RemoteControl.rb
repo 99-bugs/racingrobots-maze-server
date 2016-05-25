@@ -33,11 +33,11 @@ module RemoteControl
     end
 
     def turn_left
-        drive 0, 30
+        drive 0, -50
     end
 
     def turn_right
-        drive 0, -30
+        drive 0, 50
     end
 
     def stop
