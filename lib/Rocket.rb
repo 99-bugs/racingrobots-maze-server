@@ -6,7 +6,7 @@ class Rocket
 
     attr_reader :power, :damage, :traject
 
-    def initialize owner, range = 1000.0, power = 50.0
+    def initialize owner, range = 1000.0, power = 25.0
         @owner = owner
         @world = owner.world
 
