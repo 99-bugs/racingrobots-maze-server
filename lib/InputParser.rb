@@ -20,6 +20,8 @@ class InputParser
         else
           @curses_printer.add_flash_message "Invalid command given"
         end      
+      else
+        @curses_printer.add_flash_message "Unknown command"
     end
   end
 

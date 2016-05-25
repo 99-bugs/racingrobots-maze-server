@@ -1,21 +1,30 @@
 require 'curses'
 
-class StatsWindow < Curses::Window
-  def initialize
-    super(Curses.lines/2, Curses.cols, 0, 0)
-    draw_window
+class CursesWindow < Curses::Window
+  attr_reader :max_lines
+
+  def initialize height, width, top, left
+    super(height, width, top, left)
+    @max_lines = height-4
+
+    display_border
     refresh
-    @max_lines = Curses.lines/2 - 4
   end
 
-  def draw_window
+  def display_border
     clear
     box("|", "-")
   end
+end
 
-  def display_stats stats
-    draw_window
-    stats.pop while stats.count > @max_lines
+class StatsWindow < CursesWindow
+  def initialize
+    super(Curses.lines/2, Curses.cols, 0, 0)
+  end
+
+  def display stats
+    display_border
+    stats.pop while stats.count > max_lines
     stats.each_with_index do |stat, i|
       setpos(2+i, 2)
       addstr(stat)
@@ -24,22 +33,14 @@ class StatsWindow < Curses::Window
   end
 end
 
-class FlashWindow < Curses::Window
+class FlashWindow < CursesWindow
   def initialize
-    super(Curses.lines/4, Curses.cols, Curses.lines / 2, 0)
-    draw_window
-    refresh
-    @max_lines = Curses.lines/4 - 4
+    super(Curses.lines/4, Curses.cols, Curses.lines/2, 0)
   end
 
-  def draw_window
-    clear
-    box("|", "-")
-  end
-
-  def display_messages messages
-    draw_window
-    messages.shift while messages.count > @max_lines
+  def display messages
+    display_border
+    messages.shift while messages.count > max_lines
     messages.each_with_index do |message, i|
       setpos(2+i, 2)
       addstr(message)
@@ -48,10 +49,10 @@ class FlashWindow < Curses::Window
   end
 end
 
-class CommandWindow < Curses::Window
+class CommandWindow < CursesWindow
   def initialize
     super(Curses.lines/4, Curses.cols, 3*Curses.lines/4, 0)
-    draw_window
+    display
     refresh
 
     @commands = Queue.new
@@ -59,7 +60,7 @@ class CommandWindow < Curses::Window
       loop do
         command = @commands.pop
         @input_parser.parse(command) unless @input_parser.nil?
-        draw_window
+        display
         refresh
       end
     end
@@ -74,9 +75,8 @@ class CommandWindow < Curses::Window
     addstr("> ")
   end
 
-  def draw_window
-    clear
-    box("|", "-")
+  def display
+    display_border
     display_prompt
   end
 
@@ -108,12 +108,12 @@ class CursesStatsPrinter
 
   def add_flash_message message
     @flash_messages << message
-    @flash_window.display_messages @flash_messages
+    @flash_window.display @flash_messages
   end
 
   def display_stats stats
     stats = stats.split("\n")
-    @stats_window.display_stats stats
+    @stats_window.display stats
   end
 
   def close_all_windows
