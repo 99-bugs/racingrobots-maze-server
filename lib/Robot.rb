@@ -30,10 +30,12 @@ class Robot
     end
 
     def hit! rocket
+	puts "!!!!!!!!!!!!!!!!!! HIT !!!!!!!!!!!!!!!!!!"
         health = @health
         @health -= rocket.power
         @health = [@health, 0].max
         damage = health - @health
+	damage
     end
 
     def updatePosition position, heading = nil
