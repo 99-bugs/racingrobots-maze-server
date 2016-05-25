@@ -8,23 +8,23 @@ describe RobotController do
     before do
         @server = Server.new
         @server.setRobots({
-            robot1: "Robot 1",
-            robot2: "Robot 2",
-            robot3: "Robot 3",
-            robot4: "Robot 4",
-            robot5: "Robot 5",
-            robot6: "Robot 6",
-            robot7: "Robot 7",
-            robot8: "Robot 8"
+            "robot1" => "Robot 1",
+            "robot2" => "Robot 2",
+            "robot3" => "Robot 3",
+            "robot4" => "Robot 4",
+            "robot5" => "Robot 5",
+            "robot6" => "Robot 6",
+            "robot7" => "Robot 7",
+            "robot8" => "Robot 8"
             })
-        @server.robots[:robot1].updatePosition(Geometry::Point[1728,508], Math::PI)
-        @server.robots[:robot2].updatePosition(Geometry::Point[1118,408], 0)
-        @server.robots[:robot3].updatePosition(Geometry::Point[ 915,508], 0)
-        @server.robots[:robot4].updatePosition(Geometry::Point[1118,406], 0)
-        @server.robots[:robot5].updatePosition(Geometry::Point[1728,101], 0)
-        @server.robots[:robot6].updatePosition(Geometry::Point[1118,101], (3*Math::PI)/2)
-        @server.robots[:robot7].updatePosition(Geometry::Point[ 915,711], Math::PI/4)
-        @server.robots[:robot8].updatePosition(Geometry::Point[1931,101], Math::PI)
+        @server.robots["robot1"].updatePosition(Geometry::Point[1728,508], Math::PI)
+        @server.robots["robot2"].updatePosition(Geometry::Point[1118,508], 0)
+        @server.robots["robot3"].updatePosition(Geometry::Point[ 915,508], 0)
+        @server.robots["robot4"].updatePosition(Geometry::Point[1118,406], 0)
+        @server.robots["robot5"].updatePosition(Geometry::Point[1728,101], 0)
+        @server.robots["robot6"].updatePosition(Geometry::Point[1118,101], (3*Math::PI)/2)
+        @server.robots["robot7"].updatePosition(Geometry::Point[ 915,711], Math::PI/4)
+        @server.robots["robot8"].updatePosition(Geometry::Point[1931,101], Math::PI)
 
         @robotController = @server.robotController
     end
@@ -222,16 +222,16 @@ end
 describe CommandParser do
     before do
         @server = Server.new
-        @server.setRobots({ robot1: "Robot 1" })
-        @server.robots[:robot1].updatePosition(Geometry::Point[8.5,2.5], Math::PI)
+        @server.setRobots({ "robot1" => "Robot 1" })
+        @server.robots["robot1"].updatePosition(Geometry::Point[8.5,2.5], Math::PI)
     end
 
     it "should parse json data" do
         data = JSON.generate([
             { "id": "robot1", "shoot": "rocket"}
             ])
-        
-        robot = @server.robots[:robot1]
+
+        robot = @server.robots["robot1"]
         assert_equal 0, robot.shotsFired
 
         @server.robotController.parseCommand data
