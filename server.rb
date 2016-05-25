@@ -41,6 +41,7 @@ if options.has_key?(:use_curses)
   end
 else
   loop do
+    Gem.win_platform? ? (system "cls") : (system "clear")
     puts statistics.robots
     sleep 1
   end
