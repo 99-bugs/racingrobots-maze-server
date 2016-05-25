@@ -2,6 +2,7 @@ require './lib/Server'
 require 'yaml'
 require './lib/GameStatistics'
 require 'curses'
+require './lib/InputParser'
 require './lib/CursesStatsPrinter'
 require 'optparse'
 
@@ -26,6 +27,7 @@ statistics = GameStatistics.new server
 if options.has_key?(:use_curses)
   begin
     ncurses_printer = CursesStatsPrinter.new
+    ncurses_printer.input_parser = InputParser.new(ncurses_printer, server)
 
     loop do
       stats = statistics.robots

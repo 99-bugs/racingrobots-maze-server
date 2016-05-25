@@ -53,11 +53,43 @@ class CommandWindow < Curses::Window
     super(Curses.lines/4, Curses.cols, 3*Curses.lines/4, 0)
     draw_window
     refresh
+
+    @commands = Queue.new
+    @command_consumer = Thread.new do
+      loop do
+        command = @commands.pop
+        @input_parser.parse(command) unless @input_parser.nil?
+        draw_window
+        refresh
+      end
+    end
+    
+    Thread.new do
+      listen_for_input
+    end
+  end
+
+  def display_prompt
+    setpos(2, 2)
+    addstr("> ")
   end
 
   def draw_window
     clear
     box("|", "-")
+    display_prompt
+  end
+
+  def input_parser= parser
+    @input_parser = parser
+  end
+
+  private
+  def listen_for_input
+    loop do
+      command = getstr
+      @commands.push command
+    end
   end
 end
 
@@ -88,6 +120,10 @@ class CursesStatsPrinter
     @stats_window.close
     @flash_window.close
     @command_window.close
+  end
+
+  def input_parser= parser
+    @command_window.input_parser = parser
   end
 
 end
