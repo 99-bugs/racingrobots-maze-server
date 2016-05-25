@@ -7,7 +7,7 @@ module RemoteControl
     end
 
     def set_xbee_port= port
-      @xbee = XBeeRuby::XBee.new serial: serial
+      @xbee = XBeeRuby::XBee.new serial: port
     end
 
     def xbee_send data
