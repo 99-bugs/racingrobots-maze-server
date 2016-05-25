@@ -17,6 +17,9 @@ class GeometryHelper
         #calculate closest point to the line at the tangent which passes trhough to point
         numerator = (((x3 - x1) * (x2 - x1)) + ((y3 - y1) * (y2 - y1)))
         denominator = ((x2 - x1) ** 2 + (y2 - y1) ** 2)
+
+	return 0.0 if denominator == 0
+
         u = numerator / denominator
 
         # intersection point must be on the line
