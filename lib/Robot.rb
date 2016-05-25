@@ -1,4 +1,6 @@
-require './lib/Rocket'
+require './lib/Shots/Rocket'
+require "./lib/Shots/Emp"
+require "./lib/Shots/Shotgun"
 require './lib/RemoteControl'
 require 'geometry'
 
@@ -22,16 +24,19 @@ class Robot
         power = power + 1
     end
 
-    def shoot
+    def shoot type = "rocket"
         @power = 0
-        @shotsFired += 1
-        rocket = Rocket.new self
-        @damage += rocket.damage
+        rocket = Shot.create type, self
+        unless rocket.nil?
+            @shotsFired += 1
+            return @damage += rocket.damage
+        end
+        0
     end
 
-    def hit! rocket
+    def hit! shot
         health = @health
-        @health -= rocket.power
+        @health -= shot.power
         @health = [@health, 0].max
         damage = health - @health
     end
