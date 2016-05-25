@@ -9,7 +9,7 @@ class GameStatistics
     def robots
         options = [
             :name,
-            {:position => {:display_method => lambda{|u| "#{"%6.3f" % u.position.x} - #{"%6.3f" % u.position.y}"}}},
+            {:position => {:display_method => lambda{|u| "#{"%6.0f" % u.position.x} - #{"%6.0f" % u.position.y}"}}},
             {:heading=> {:display_method => lambda{|u| "#{"%6.3f" % u.heading}"}}},
             :health,
             :shotsFired,
