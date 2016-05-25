@@ -22,10 +22,12 @@ class Server
         @robots = Hash.new
         robots.each do |id, config|
             robot = Robot.new config["name"], self
-            address = config["address"].split "-"
-            address.map! { |e| e.to_i 16  }
-            robot.set_xbee_address = address
-            robot.set_xbee_port = @serial unless @serial.nil?
+            unless @serial.nil?
+              address = config["address"].split "-"
+              address.map! { |e| e.to_i 16  }
+              robot.set_xbee_address = address
+              robot.set_xbee_port = @serial
+            end
             @robots[id] = robot
         end
     end
