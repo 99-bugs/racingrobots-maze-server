@@ -14,7 +14,11 @@ end.parse!
 server = Server.new '0.0.0.0', RobotState::Server::PORT
 settings = YAML.load_file('settings.yml')
 
-server.serial = SerialPort.new settings["serial"]["device"], settings["serial"]["baud"]
+begin
+  server.serial = SerialPort.new settings["serial"]["device"], settings["serial"]["baud"]
+rescue StandardError => sa
+  puts "Could not open serial device, moving on without"
+end
 server.setRobots settings["robots"]
 
 statistics = GameStatistics.new server
