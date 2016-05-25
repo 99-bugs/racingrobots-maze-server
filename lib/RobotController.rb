@@ -48,10 +48,12 @@ class RobotController
         robot = getRobot robotId
         if robot.alive?
             case weapon
-                when "rocket", "bazooka" then
-                    robot.shoot
-                when "a", "b", "x" then
-                    robot.shoot
+            when "rocket", "bazooka", "a" then
+                    robot.shoot "rocket"
+            when "b", "shotgun" then
+                    robot.shoot "shotgun"
+            when "x", "emp"
+                    robot.shoot "emp"
             end
         end
     end

@@ -16,7 +16,7 @@
     "definitions" : {
                 "id" : { "type" : "string", "pattern" : "^(robot[0-9]+)$" },
                 "move" : { "type" : "string", "enum" : ["forward", "left", "right", "reverse"] },
-                "shoot" : { "type" : "string", "enum" : ["rocket", "shoot", "bazooka", "a", "b", "x"] },
+                "shoot" : { "type" : "string", "enum" : ["rocket", "shoot", "bazooka", "a", "b", "x", "emp", "shotgun"] },
                 "state" : {
                     "type" : "object",
                     "properties" : {
