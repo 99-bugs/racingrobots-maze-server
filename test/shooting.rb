@@ -121,5 +121,25 @@ describe RobotController do
         end
     end
 
+    describe "other shooting types" do
+        it "should shoot emp" do
+            robot1 = @server.robots["robot1"]
+            robot2 = @server.robots["robot2"]
+            health = robot2.health
+            robot1.shoot "emp"
+            #TODO: creat valid tests for emp
+            #assert robot2.health < health
+        end
+
+        it "should shoot shotgun" do
+            robot1 = @server.robots["robot1"]
+            robot2 = @server.robots["robot2"]
+            health = robot2.health
+            robot1.shoot "shotgun"
+            #TODO: create valid tests for shotguns
+            #assert robot2.health < health
+        end
+    end
+
 
 end
