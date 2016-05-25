@@ -3,30 +3,45 @@ require 'yaml'
 require './lib/GameStatistics'
 require 'curses'
 require './lib/CursesStatsPrinter'
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: server.rb [options]"
+
+  opts.on('-n', '--use-curses', 'Use curses for GUI') { |v| options[:use_curses] = v }
+
+end.parse!
 
 server = Server.new '0.0.0.0', RobotState::Server::PORT
 settings = YAML.load_file('settings.yml')
-
-Curses.init_screen
-Curses.curs_set(0)  # Invisible cursor
 
 server.serial = SerialPort.new settings["serial"]["device"], settings["serial"]["baud"]
 server.setRobots settings["robots"]
 
 statistics = GameStatistics.new server
 
-begin
-  ncurses_printer = CursesStatsPrinter.new
+if options.has_key?(:use_curses)
+  Curses.init_screen
+  Curses.curs_set(0)  # Invisible cursor
+  begin
+    ncurses_printer = CursesStatsPrinter.new
 
+    loop do
+      stats = statistics.robots
+      ncurses_printer.display_stats stats
+      sleep 1
+    end
+
+    printer.close_all_windows
+  rescue => ex
+    Curses.close_screen
+    puts ex.message
+    puts ex.backtrace
+  end
+else
   loop do
-    stats = statistics.robots
-    ncurses_printer.display_stats stats
+    puts statistics.robots
     sleep 1
   end
-
-  printer.close_all_windows
-rescue => ex
-  Curses.close_screen
-  puts ex.message
-  puts ex.backtrace
 end
