@@ -4,16 +4,17 @@ class StatsWindow < Curses::Window
   def initialize
     super(Curses.lines/2, Curses.cols, 0, 0)
     draw_window
+    refresh
     @max_lines = Curses.lines/2 - 4
   end
 
   def draw_window
     clear
     box("|", "-")
-    refresh
   end
 
   def display_stats stats
+    draw_window
     stats.pop while stats.count > @max_lines
     stats.each_with_index do |stat, i|
       setpos(2+i, 2)
@@ -27,16 +28,17 @@ class FlashWindow < Curses::Window
   def initialize
     super(Curses.lines/4, Curses.cols, Curses.lines / 2, 0)
     draw_window
+    refresh
     @max_lines = Curses.lines/4 - 4
   end
 
   def draw_window
     clear
     box("|", "-")
-    refresh
   end
 
   def display_messages messages
+    draw_window
     messages.shift while messages.count > @max_lines
     messages.each_with_index do |message, i|
       setpos(2+i, 2)
@@ -50,12 +52,12 @@ class CommandWindow < Curses::Window
   def initialize
     super(Curses.lines/4, Curses.cols, 3*Curses.lines/4, 0)
     draw_window
+    refresh
   end
 
   def draw_window
     clear
     box("|", "-")
-    refresh
   end
 end
 
