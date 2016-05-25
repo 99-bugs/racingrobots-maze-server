@@ -2,33 +2,6 @@ require 'minitest/autorun'
 require './lib/RobotState/Server'
 require './lib/Server'
 
-# describe RobotState::Server do
-#     before do
-#         @server = RobotState::Server.new nil
-#         port = @server.port
-#         @client = TCPSocket.open("localhost", )
-#     end
-#
-#     after do
-#         @server.close
-#         @client.close
-#     end
-#
-#     describe "when making connection" do
-#         it "must accept the connection" do
-#
-#         end
-#     end
-#
-#     describe "when sending data" do
-#         it "must not not accept any other data than json" do
-#             @client.puts "blablala"
-#             result = @client.gets
-#             result.must_equal '{"error": "not valid json"}'
-#         end
-#     end
-# end
-
 describe Server do
 
     before do
