@@ -10,7 +10,6 @@ class Robot
     include RemoteControl
 
     attr_reader :health, :size, :world, :name, :position, :heading, :shotsFired, :damage
-    @power = 0
 
     def initialize name = "Unnamed Robot", world = nil
         @world = world
@@ -18,18 +17,17 @@ class Robot
         @size = 120 / 2 #radius = diameter / 2
         reset
         updatePosition Point[0,0], 0
-    end
-
-    def update
-        power = power + 1
+        @lastshot = DateTime.now - 10
     end
 
     def shoot type = "rocket"
-        @power = 0
-        rocket = Shot.create type, self
-        unless rocket.nil?
-            @shotsFired += 1
-            return @damage += rocket.damage
+        if @lastshot + 5.0 < DateTime.now
+            rocket = Shot.create type, self
+            unless rocket.nil?
+                @shotsFired += 1
+                @lastshot = DateTime.now
+                return @damage += rocket.damage
+            end
         end
         0
     end
