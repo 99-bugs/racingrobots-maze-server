@@ -20,8 +20,8 @@ class GeometryHelper
         u = numerator / denominator
 
         # intersection point must be on the line
-        u = [u, 1].min
-        u = [u, 0].max
+        u = [u, 1.0].min
+        u = [u, 0.0].max
 
         #calculate point of intersection of the tangent
         x = x1 + u * (x2 - x1)
