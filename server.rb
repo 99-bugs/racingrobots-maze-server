@@ -5,8 +5,8 @@ require './lib/GameStatistics'
 server = Server.new '0.0.0.0', RobotState::Server::PORT
 settings = YAML.load_file('settings.yml')
 
-server.setRobots settings["robots"]
 server.serial = SerialPort.new settings["serial"]["device"], settings["serial"]["baud"]
+server.setRobots settings["robots"]
 
 
 statistics = GameStatistics.new server
