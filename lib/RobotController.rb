@@ -62,7 +62,7 @@ class RobotController
     end
 
     def getRobot robotId
-        robot =  @server.robots[robotId.to_sym]
+        robot =  @server.robots[robotId]
         raise CommandError.new "unknown robot" if robot.nil?
         return robot
     end
