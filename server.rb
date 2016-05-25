@@ -33,7 +33,7 @@ if options.has_key?(:use_curses)
       sleep 1
     end
 
-    printer.close_all_windows
+    ncurses_printer.close_all_windows
   rescue => ex
     Curses.close_screen
     puts ex.message
