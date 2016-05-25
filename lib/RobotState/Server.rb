@@ -42,7 +42,6 @@ module RobotState
               Thread.new(@server.accept) do |client|
                   @clients << client
                   @response = Queue.new
-                  puts @response
                   while command = client.gets.strip
                       @commands.push({command: command, response_queue: @response})
                       client.puts @response.pop
