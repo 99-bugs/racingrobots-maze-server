@@ -3,9 +3,14 @@ require 'curses'
 class StatsWindow < Curses::Window
   def initialize
     super(Curses.lines/2, Curses.cols, 0, 0)
+    draw_window
+    @max_lines = Curses.lines/2 - 4
+  end
+
+  def draw_window
+    clear
     box("|", "-")
     refresh
-    @max_lines = Curses.lines/2 - 4
   end
 
   def display_stats stats
@@ -21,9 +26,14 @@ end
 class FlashWindow < Curses::Window
   def initialize
     super(Curses.lines/4, Curses.cols, Curses.lines / 2, 0)
+    draw_window
+    @max_lines = Curses.lines/4 - 4
+  end
+
+  def draw_window
+    clear
     box("|", "-")
     refresh
-    @max_lines = Curses.lines/4 - 4
   end
 
   def display_messages messages
@@ -39,6 +49,11 @@ end
 class CommandWindow < Curses::Window
   def initialize
     super(Curses.lines/4, Curses.cols, 3*Curses.lines/4, 0)
+    draw_window
+  end
+
+  def draw_window
+    clear
     box("|", "-")
     refresh
   end
