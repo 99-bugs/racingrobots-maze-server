@@ -47,6 +47,9 @@ end
 class CursesStatsPrinter
 
   def initialize
+    Curses.init_screen
+    Curses.curs_set(0)  # Invisible cursor
+
     @stats_window = StatsWindow.new
     @flash_window = FlashWindow.new
     @command_window = CommandWindow.new

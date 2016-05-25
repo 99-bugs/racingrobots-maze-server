@@ -8,9 +8,7 @@ require 'optparse'
 options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: server.rb [options]"
-
   opts.on('-n', '--use-curses', 'Use curses for GUI') { |v| options[:use_curses] = v }
-
 end.parse!
 
 server = Server.new '0.0.0.0', RobotState::Server::PORT
@@ -22,8 +20,6 @@ server.setRobots settings["robots"]
 statistics = GameStatistics.new server
 
 if options.has_key?(:use_curses)
-  Curses.init_screen
-  Curses.curs_set(0)  # Invisible cursor
   begin
     ncurses_printer = CursesStatsPrinter.new
 
