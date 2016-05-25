@@ -21,7 +21,7 @@ module RemoteControl
       raise "Speed is to low, speed must be greater than -100" if speed < -100
       raise "Turn radius is to high, turn_radius must be less than 100" if speed > 100
       raise "Turn radius is to low, turn_radius must be greater than -100" if speed < -100
-      xbee_send [0x10, [speed].pack("c").getbyte(0), [turn_radius].pack("c").getbyte(0)]
+      xbee_send [0x10, [speed].pack("c").getbyte(0), [turn_radius].pack("c").getbyte(0)] unless @xbee.nil?
     end
 
     def forward
